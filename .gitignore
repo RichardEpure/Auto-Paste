@@ -1,0 +1,7 @@
+*.html
+*.xlsx
+*.csv
+*.spec
+/build
+/dist
+/env
