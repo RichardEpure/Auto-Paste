@@ -15,14 +15,14 @@ def paste():
 
     for index, item in enumerate(data):
         keyboard.write(item)
-        if index < len(data):
+        if index < len(data)-1:
             keyboard.send("tab")
 
 def __main__():
+    print("Close this terminal to stop auto-paste")
     keyboard.add_hotkey("c+v", paste)
     keyboard.wait()
 
 
 if __name__ == "__main__":
-    print("Close this terminal to stop auto-paste")
     __main__()
