@@ -1,6 +1,5 @@
 import win32clipboard
 import keyboard
-import time
 
 
 def paste():
