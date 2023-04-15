@@ -1,5 +1,7 @@
 import win32clipboard
 import keyboard
+import pystray
+import PIL.Image
 
 
 def paste():
@@ -18,11 +20,20 @@ def paste():
         if index < len(data)-1:
             keyboard.send("tab")
 
-def __main__():
-    print("Close this terminal to stop auto-paste")
+def main():
     keyboard.add_hotkey("c+v", paste)
-    keyboard.wait()
+    
+    image = PIL.Image.open("./assets/icon.png")
+
+    exit_menu = pystray.MenuItem("Exit", lambda: icon.stop())
+
+    menu = pystray.Menu(
+        exit_menu
+    )
+
+    icon = pystray.Icon("Auto Paste", image, menu=menu, title="Auto Paste")
+    icon.run()
 
 
 if __name__ == "__main__":
-    __main__()
+    main()
