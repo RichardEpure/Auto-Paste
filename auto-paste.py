@@ -4,7 +4,16 @@ import pystray
 import PIL.Image
 
 
+enabled = True
+
+def toggle_enabled(menu_item):
+    global enabled
+    enabled = not enabled
+
 def paste():
+    if not enabled:
+        return
+
     try:
         win32clipboard.OpenClipboard()
         clipboard = win32clipboard.GetClipboardData()
@@ -25,9 +34,12 @@ def main():
     
     image = PIL.Image.open("./assets/icon.png")
 
+    toggle_enabled_menu = pystray.MenuItem(f"Toggle On/Off", lambda: toggle_enabled(toggle_enabled_menu))
+
     exit_menu = pystray.MenuItem("Exit", lambda: icon.stop())
 
     menu = pystray.Menu(
+        toggle_enabled_menu,
         exit_menu
     )
 
