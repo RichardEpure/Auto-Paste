@@ -5,12 +5,11 @@ import PIL.Image
 
 
 enabled = True
-
-def toggle_enabled(menu_item):
-    global enabled
-    enabled = not enabled
+icon = None
 
 def paste():
+    global enabled
+
     if not enabled:
         return
 
@@ -29,21 +28,32 @@ def paste():
         if index < len(data)-1:
             keyboard.send("tab")
 
-def main():
-    keyboard.add_hotkey("c+v", paste)
-    
-    image = PIL.Image.open("./assets/icon.png")
 
-    toggle_enabled_menu = pystray.MenuItem(f"Toggle On/Off", lambda: toggle_enabled(toggle_enabled_menu))
+def toggle_enabled():
+    global enabled
+    enabled = not enabled
+    setup_context_menu()
 
+def setup_context_menu():
+    global enabled
+
+    toggle_enabled_menu = pystray.MenuItem(f"Active: {enabled}", toggle_enabled)
     exit_menu = pystray.MenuItem("Exit", lambda: icon.stop())
 
     menu = pystray.Menu(
         toggle_enabled_menu,
         exit_menu
     )
+    icon.menu = menu
 
-    icon = pystray.Icon("Auto Paste", image, menu=menu, title="Auto Paste")
+def main():
+    global icon
+
+    keyboard.add_hotkey("c+v", paste)
+    
+    image = PIL.Image.open("./assets/icon.png")
+    icon = pystray.Icon("Auto Paste", image, title="Auto Paste")
+    setup_context_menu()
     icon.run()
 
 
